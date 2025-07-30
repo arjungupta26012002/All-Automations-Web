@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+
+    .dashboard-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      gap: 30px;
+      padding: 20px;
+      background-color: #f8f8f8;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .dashboard-item {
+      text-align: center;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+      flex: 1;
+      min-width: 250px;
+      max-width: 350px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dashboard-item h4 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 1.3em;
+    }
+
+    .circle-wrap {
+      width: 150px;
+      height: 150px;
+      background: #f0f0f0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+      position: relative;
+    }
+
+    .circle-wrap .circle {
+      width: 130px; 
+      height: 130px;
+      background: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+      font-weight: bold;
+      color: #007bff;
+    }
+
+    .circle-wrap svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg); 
+    }
+
+    .circle-wrap circle {
+      fill: none;
+      stroke-width: 10;
+      stroke-linecap: round;
+      transform-origin: center;
+      transition: stroke-dasharray 0.5s ease-out;
+    }
+
+    .circle-wrap .bg {
+      stroke: #e6e6e6; 
+    }
+
+    .circle-wrap .progress {
+      stroke: #28a745; 
+    }
+    .circle-wrap .progress-mails {
+      stroke: #007bff; 
+    }
+    .circle-wrap .progress-users {
+      stroke: #ffc107; 
+    }
+
+    .view-users-button {
+      background-color: #6c757d; 
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+      font-size: 0.9em;
+      transition: background-color 0.3s ease;
+    }
+    .view-users-button:hover {
+      background-color: #5a6268;
+    }
+
+    .user-list-drawer {
+      position: fixed; 
+      top: 0;
+      right: -320px; 
+      width: 300px; 
+      height: 100%;
+      background-color: #f0f0f0;
+      box-shadow: -5px 0 15px rgba(0,0,0,0.2); 
+      transition: right 0.3s ease-in-out; 
+      z-index: 1000; 
+      padding: 20px;
+      display: flex; 
+      flex-direction: column; 
+    }
+
+    .user-list-drawer.active {
+      right: 0; 
+    }
+
+    .user-list-drawer h4 {
+      margin-top: 0;
+      color: #333;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .user-list-drawer .close-btn {
+      background: none;
+      border: none;
+      font-size: 1.5em;
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      cursor: pointer;
+      color: #666;
+      transition: color 0.2s;
+    }
+    .user-list-drawer .close-btn:hover {
+      color: #333;
+    }
+
+    #userList {
+      list-style: none;
+      padding: 0;
+      flex-grow: 1; 
+      overflow-y: auto; 
+      text-align: left;
+    }
+    #userList li {
+      padding: 8px 0;
+      border-bottom: 1px dotted #e0e0e0;
+      color: #555;
+      font-size: 0.95em;
+    }
+    #userList li:last-child {
+      border-bottom: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dashboard-container">
+    <div class="dashboard-item">
+      <h4>Total Interns Marked</h4>
+      <div class="circle-wrap">
+        <div class="circle" id="internsCount">0</div>
+        <svg>
+          <circle class="bg" cx="75" cy="75" r="65"></circle>
+          <circle class="progress" id="internsProgress" cx="75" cy="75" r="65"></circle>
+        </svg>
+      </div>
+    </div>
+
+    <div class="dashboard-item">
+      <h4>Total Mails Sent</h4>
+      <div class="circle-wrap">
+        <div class="circle" id="mailsCount">0</div>
+        <svg>
+          <circle class="bg" cx="75" cy="75" r="65"></circle>
+          <circle class="progress progress-mails" id="mailsProgress" cx="75" cy="75" r="65"></circle>
+        </svg>
+      </div>
+    </div>
+
+    <div class="dashboard-item">
+      <h4>Unique Automation Users</h4>
+      <div class="circle-wrap">
+        <div class="circle" id="usersCount">0</div>
+        <svg>
+          <circle class="bg" cx="75" cy="75" r="65"></circle>
+          <circle class="progress progress-users" id="usersProgress" cx="75" cy="75" r="65"></circle>
+        </svg>
+      </div>
+      <button class="view-users-button" onclick="toggleUserListDrawer()">View Users</button>
+    </div>
+  </div>
+
+  <div id="userListDrawer" class="user-list-drawer">
+    <button class="close-btn" onclick="toggleUserListDrawer()">&times;</button> <h4>Automation Users</h4>
+    <ul id="userList">
+      </ul>
+  </div>
+
+  <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+
+      google.script.run
+        .withSuccessHandler(function(data) {
+
+          document.getElementById('internsCount').innerText = data.totalInternsMarked;
+          setProgress('internsProgress', data.totalInternsMarked, null); 
+
+          document.getElementById('mailsCount').innerText = data.totalMailsSent;
+          setProgress('mailsProgress', data.totalMailsSent, null); 
+
+          document.getElementById('usersCount').innerText = data.uniqueUsersCount;
+          const maxUsers = 28; 
+          setProgress('usersProgress', data.uniqueUsersCount, maxUsers);
+
+          const userListElement = document.getElementById('userList');
+          if (data.uniqueUserNamesList && data.uniqueUserNamesList.length > 0) {
+            data.uniqueUserNamesList.forEach(username => {
+              const li = document.createElement('li');
+              li.textContent = username;
+              userListElement.appendChild(li);
+            });
+          } else {
+            const li = document.createElement('li');
+            li.textContent = 'No users found.';
+            userListElement.appendChild(li);
+          }
+
+        })
+        .withFailureHandler(function(error) {
+          console.error('Error fetching dashboard data:', error);
+          document.getElementById('internsCount').innerText = 'Error';
+          document.getElementById('mailsCount').innerText = 'Error';
+          document.getElementById('usersCount').innerText = 'Error';
+          document.getElementById('userList').innerHTML = '<li>Error loading users.</li>';
+        })
+        .getDashboardData(); 
+
+        function setProgress(id, value, maxValue = null) {
+            const circle = document.getElementById(id);
+            if (!circle) return;
+
+            const radius = circle.r.baseVal.value;
+            const circumference = 2 * Math.PI * radius;
+
+            circle.style.strokeDasharray = `${circumference} ${circumference}`;
+
+            if (maxValue === null) { 
+                circle.style.strokeDashoffset = 0; 
+            } else {
+                let progress = (value / maxValue) * 100;
+                if (progress > 100) progress = 100; 
+                if (progress < 0) progress = 0; 
+
+                const offset = circumference - (progress / 100) * circumference;
+                circle.style.strokeDashoffset = offset;
+            }
+        }
+    });
+
+    function toggleUserListDrawer() {
+        const drawer = document.getElementById('userListDrawer');
+        drawer.classList.toggle('active');
+    }
+  </script>
+
+</body>
+</html>
