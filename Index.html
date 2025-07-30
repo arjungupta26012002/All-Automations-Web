@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      padding-top: 110px; 
+    }
+
+  
+    .top-header {
+      display: flex;
+      justify-content: space-between; 
+      align-items: center; 
+      background-color: #222;
+      padding: 5px 10px;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1001; 
+      box-sizing: border-box; 
+      height: 50px; 
+    }
+
+    .top-header .logo {
+      height: 40px; 
+      cursor: pointer; 
+    }
+
+    
+    .top-header .profile-link {
+      height: 40px;
+      width: 40px;
+      overflow: hidden; 
+      border-radius: 50%; 
+      display: flex; 
+      align-items: center;
+      justify-content: center;
+      background-color: #555; 
+      box-shadow: 0 0 5px rgba(0,0,0,0.3); 
+      transition: transform 0.2s ease;
+    }
+
+    .top-header .profile-link:hover {
+        transform: scale(1.05);
+    }
+
+    .top-header .profile-link dotlottie-player {
+      width: 100%; 
+      height: 100%;
+      object-fit: cover; 
+      transform: translateY(5%); 
+    }
+
+   
+    .navbar {
+      display: flex;
+      background-color: #333;
+      overflow: hidden;
+      position: fixed;
+      
+      top: 50px; 
+      width: 100%;
+      z-index: 1000;
+      align-items: stretch; 
+      height: 50px; 
+      box-sizing: border-box; 
+    }
+    .navbar button {
+      background-color: #4CAF50; 
+      color: white;
+      padding: 14px 20px;
+      border: none;
+      cursor: pointer;
+      font-size: 17px;
+      transition: 0.3s;
+      flex-grow: 1;
+      margin: 0; 
+      border-radius: 0;
+      height: 100%; 
+    }
+    .navbar button:hover {
+      background-color: #45a049;
+    }
+    .navbar button.active {
+      background-color: #666;
+    }
+    .tabcontent {
+      display: none;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-top: none;
+      background-color: #fff;
+    }
+    .tabcontent.active {
+      display: block;
+    }
+
+   
+    .tabcontent h3:first-child {
+      margin-top: 0;
+    }
+
+   
+    .tools-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      padding: 20px 0;
+    }
+
+    .tool-column {
+      flex: 1;
+      min-width: 280px;
+      max-width: 350px;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+
+    .tool-column h4 {
+      margin-top: 0;
+      color: #333;
+      font-size: 1.2em;
+      margin-bottom: 15px;
+    }
+
+    .tool-column button {
+      display: block;
+      width: calc(100% - 20px);
+      padding: 12px;
+      margin: 10px auto;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .tool-column button:hover {
+      background-color: #0056b3;
+      transform: translateY(-2px);
+    }
+
+    
+    #Counter iframe {
+        width: 100%;
+        min-height: 800px;
+        border: none;
+        display: block;
+    }
+  </style>
+  <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+</head>
+<body>
+
+  <div class="top-header">
+    <img src="https://raw.githubusercontent.com/arjungupta26012002/ExcelerateResources/refs/heads/main/uQLfqvsn_o.png" alt="Excelerate" class="logo">
+    <a href="https://www.linkedin.com/in/arjungupta26012002/" target="_blank" class="profile-link" title="Arjun's Linkedin">
+        <dotlottie-player src="https://lottie.host/8e58d96e-d144-4093-b5cd-2bbaa05ac618/GDQ1VkgGGI.lottie" background="transparent" speed="1" loop autoplay></dotlottie-player>
+    </a>
+  </div>
+
+  <div class="navbar">
+    <button class="tablinks" onclick="openTab(event, 'AutomationTools')" id="defaultOpen">Tools Overview</button>
+    <button class="tablinks" onclick="openTab(event, 'Dashboard')">Dashboard</button>
+    <button class="tablinks" onclick="openTab(event, 'Counter')">Counter</button>
+  </div>
+
+  <div id="AutomationTools" class="tabcontent active">
+    <h3>Tools Overview</h3>
+    <div class="tools-container">
+
+      <div class="tool-column">
+        <h4>Automation Tools</h4>
+        <button onclick="window.open('https://script.google.com/a/macros/vempower.org/s/AKfycbxP25VZheSa3qOGc1O1Y_LRlNbwUfQ2P0chn3ILocNolYzSveUkW60CVGEw-Wgaa2Hkbg/exec', '_blank')">All in One Marking Tool</button>
+        <button onclick="window.open('https://script.google.com/a/macros/vempower.org/s/AKfycbzHJqq1uKR7UYsggGT3tmkML6OnqOVVvyJGdT2s5DzYdW4w2qN2iu5-6PoiBhGXOfhwLQ/exec', '_blank')">Missing Deliverables & Forms Mailer</button>
+        <button onclick="window.open('https://script.google.com/a/macros/vempower.org/s/AKfycbw9J-GmINd5lYhhDj14eGeHv652MhjjDykNDLtml6VdaEzPWXAQMLlrDb-h5na1bUff/exec', '_blank')">Teams Invitation Manager - Nora</button>
+        <button onclick="window.open('https://script.google.com/a/macros/vempower.org/s/AKfycbwoGT7AfdYkYi_AVhuUbLMLI1XSSDfVOJIF4GmPebtn9JjFPNnSBLQd3roNVznze5Dqeg/exec', '_blank')">DynamicPeer - To be shared with Interns</button>
+      </div>
+
+      <div class="tool-column">
+        <h4>Process Enhancement Tool</h4>
+        <button onclick="window.open('https://script.google.com/a/macros/vempower.org/s/AKfycbwiUv11ekqZ7btRgBcQDfzRiozaQFUPSA8eSRd7z9tAodIXPvWVZAOfnVWQoNNv-C_svA/exec', '_blank')">Message Generator</button>
+      </div>
+
+      <div class="tool-column">
+        <h4>Process Monitoring Tool</h4>
+        <button onclick="window.open('https://script.google.com/a/macros/vempower.org/s/AKfycbzVKZ0rLtIZTuKgzKgVcyUcpJmR1uKl0AHtaxk-wC-nFOf9_SNkoiH27hWSvhqtlcXHKw/exec', '_blank')">Active Teams Finder</button>
+        <button onclick="window.open('https://script.google.com/a/macros/vempower.org/s/AKfycbya1-IXrEcNJrPCeNgo6moMGDgiRc_FMlvWh9cftIYy2Qm_44ISblJXdP5XpeApw6_H6g/exec', '_blank')">Peer Evaluation Manager</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="Dashboard" class="tabcontent">
+    <h3>Dashboard</h3>
+    <?!= HtmlService.createTemplateFromFile('dashboard').evaluate().getContent(); ?>
+  </div>
+
+  <div id="Counter" class="tabcontent">
+    <h3>Counter</h3>
+    <?!= HtmlService.createHtmlOutputFromFile('counter').getContent(); ?>
+  </div>
+
+  <script>
+    function openTab(evt, tabName) {
+      var i, tabcontent, tablinks;
+
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+        tabcontent[i].classList.remove("active");
+      }
+
+     
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].classList.remove("active");
+      }
+
+     
+      document.getElementById(tabName).style.display = "block";
+      document.getElementById(tabName).classList.add("active");
+      evt.currentTarget.classList.add("active");
+    }
+
+   
+    document.getElementById("defaultOpen").click();
+  </script>
+
+</body>
+</html>
