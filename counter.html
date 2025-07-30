@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      margin: 0;
+      padding: 20px; 
+      background-color: #eef2f6; 
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      box-sizing: border-box; 
+    }
+
+    .main-container {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px; 
+      align-items: center;
+    }
+
+    .counter-section,
+    .leaderboards-section-wrapper {
+      background-color: #ffffff;
+      padding: 35px; 
+      border-radius: 12px; 
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); 
+      text-align: center;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    h3 {
+      color: #2c3e50; 
+      margin-bottom: 25px;
+      font-size: 2em;
+      font-weight: 700;
+    }
+
+    .counter-section {
+      max-width: 550px; 
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .counter-section p {
+      color: #555;
+      font-size: 1.1em;
+      margin-bottom: 15px;
+    }
+
+    #registrationForm {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px; 
+      width: 100%;
+    }
+
+    #registrationForm input[type="text"] {
+      flex-grow: 1;
+      max-width: 250px; 
+      padding: 12px 15px;
+      border: 1px solid #dcdcdc; 
+      border-radius: 8px; 
+      font-size: 1em;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    #registrationForm input[type="text"]:focus {
+      border-color: #6a11cb; 
+      box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.2); 
+      outline: none;
+    }
+
+    #registrationForm button {
+      padding: 12px 25px;
+      background: linear-gradient(45deg, #28a745, #218838); 
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.05em;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
+    }
+
+    #registrationForm button:hover {
+      background: linear-gradient(45deg, #218838, #1e7e34);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(40, 167, 69, 0.4);
+    }
+
+    #registrationForm button:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 5px rgba(40, 167, 69, 0.2);
+    }
+
+    #counterDisplay {
+      font-size: 5.5em; 
+      font-weight: 700;
+      color: #6a11cb; 
+      margin: 25px 0;
+      letter-spacing: -2px; 
+    }
+
+    #incrementButton {
+      padding: 18px 40px; 
+      background: linear-gradient(45deg, #6a11cb, #2575fc); 
+      color: white;
+      border: none;
+      border-radius: 10px; 
+      cursor: pointer;
+      font-size: 1.8em; 
+      font-weight: 700;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 15px rgba(106, 17, 203, 0.4); 
+      letter-spacing: 0.5px;
+    }
+
+    #incrementButton:hover {
+      background: linear-gradient(45deg, #5b0fbd, #1e66eb);
+      transform: translateY(-3px); 
+      box-shadow: 0 8px 20px rgba(106, 17, 203, 0.5);
+    }
+
+    #incrementButton:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 10px rgba(106, 17, 203, 0.3);
+    }
+
+    .leaderboards-section-wrapper {
+      max-width: 1000px; 
+    }
+
+    .leaderboard-columns-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px; 
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .leaderboard-column {
+      flex: 1;
+      min-width: 280px;
+      max-width: 320px; 
+      background-color: #fcfdff; 
+      padding: 20px; 
+      border-radius: 10px; 
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04); 
+      text-align: center;
+      box-sizing: border-box;
+      border: 1px solid #eee; 
+    }
+
+    .leaderboard-column h4 {
+      color: #34495e; 
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.3em;
+      font-weight: 600;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .leaderboard-column h4::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 3px;
+        background-color: #a76ff0; 
+        border-radius: 2px;
+    }
+
+    .leaderboard-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .leaderboard-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 10px; 
+      border-bottom: 1px dashed #e5e5e5; 
+      font-size: 1.05em;
+      color: #444;
+      transition: background-color 0.2s ease;
+    }
+
+    .leaderboard-list li:last-child {
+      border-bottom: none;
+    }
+
+    .leaderboard-list li:hover {
+      background-color: #f7f9fc; 
+    }
+
+    .leaderboard-list li .name {
+      font-weight: 600;
+      color: #007bff; 
+    }
+
+    .leaderboard-list li .count {
+      color: #28a745; 
+      font-weight: 700;
+      font-size: 1.1em;
+    }
+
+    .leaderboard-list li:nth-child(1) .name,
+    .leaderboard-list li:nth-child(1) .count {
+      color: #d4af37; 
+      text-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
+    }
+
+    .leaderboard-list li:nth-child(2) .name,
+    .leaderboard-list li:nth-child(2) .count {
+      color: #c0c0c0; 
+      text-shadow: 0 0 5px rgba(192, 192, 192, 0.5);
+    }
+
+    .leaderboard-list li:nth-child(3) .name,
+    .leaderboard-list li:nth-child(3) .count {
+      color: #964b00; 
+      text-shadow: 0 0 5px rgba(150, 75, 0, 0.5);
+    }
+
+    .message {
+      margin-top: 20px;
+      font-size: 0.95em;
+      font-weight: 500;
+      padding: 8px 15px;
+      border-radius: 5px;
+      display: none; 
+    }
+
+    .message[style*="green"] {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .message[style*="red"] {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    .throne-section {
+        background-color: #ffffff;
+        padding: 35px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        text-align: center;
+        width: 100%;
+        max-width: 500px; 
+        box-sizing: border-box;
+        margin-top: 40px; 
+    }
+
+    .throne-section h3 {
+        color: #8b0000; 
+        font-size: 2.2em; 
+        font-weight: 800;
+        margin-bottom: 25px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        position: relative;
+    }
+
+    .throne-section h3::before {
+        content: '👑'; 
+        font-size: 0.8em;
+        position: absolute;
+        left: 50%;
+        top: -15px; 
+        transform: translateX(-50%);
+        z-index: 1;
+    }
+
+    .throne-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .throne-list li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        border-bottom: 2px solid #f0f0f0; 
+        font-size: 1.3em; 
+        font-weight: 600;
+        color: #333;
+        background-color: #fffaf0; 
+        margin-bottom: 5px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .throne-list li:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .throne-list li:last-child {
+        border-bottom: none;
+    }
+
+    .throne-list li .name {
+        color: #4b0082; 
+        font-weight: 700;
+    }
+
+    .throne-list li .count {
+        color: #008000; 
+        font-size: 1.4em;
+        font-weight: 800;
+        letter-spacing: 1px;
+    }
+
+    .throne-list li:first-child {
+        background: linear-gradient(to right, #ffd700, #ffa500); 
+        color: #8b0000; 
+        border: 3px solid #cc8800; 
+        transform: scale(1.05); 
+        box-shadow: 0 8px 20px rgba(255,215,0,0.5); 
+    }
+
+    .throne-list li:first-child .name,
+    .throne-list li:first-child .count {
+        color: #8b0000; 
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    }
+
+    @media (max-width: 980px) {
+      .leaderboards-section-wrapper {
+        max-width: 680px; 
+      }
+      .leaderboard-column {
+          max-width: 320px; 
+      }
+    }
+
+    @media (max-width: 768px) {
+      h3 {
+        font-size: 1.8em;
+      }
+      #incrementButton {
+        padding: 15px 30px;
+        font-size: 1.4em;
+      }
+      #counterDisplay {
+        font-size: 4.5em;
+      }
+      .leaderboard-column {
+        min-width: unset; 
+        flex-basis: 100%; 
+        max-width: 400px; 
+      }
+      .leaderboard-columns-container {
+          gap: 20px; 
+      }
+      .leaderboards-section-wrapper {
+        max-width: 400px; 
+      }
+      .throne-section {
+          max-width: 400px; 
+      }
+      .throne-list li {
+          font-size: 1.1em;
+      }
+      .throne-list li .count {
+          font-size: 1.2em;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 15px;
+      }
+      .main-container {
+        gap: 30px;
+      }
+      .counter-section,
+      .leaderboards-section-wrapper,
+      .throne-section { 
+        padding: 25px;
+      }
+      h3 {
+        font-size: 1.5em;
+      }
+      #registrationForm input[type="text"] {
+        max-width: 100%;
+      }
+      #incrementButton {
+        font-size: 1.2em;
+        padding: 12px 25px;
+      }
+      #counterDisplay {
+        font-size: 3.5em;
+      }
+      .throne-list li {
+          padding: 10px 15px;
+          font-size: 1em;
+      }
+      .throne-list li .count {
+          font-size: 1.1em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="main-container">
+    <div class="counter-section">
+      <h3>Your Daily Counter</h3>
+      <h4> To keep the count of the queries resolved via mail or message! </h3>
+      <div id="registrationSection">
+        <p>Please register to use the counter:</p>
+        <form id="registrationForm">
+          <input type="text" id="userNameInput" placeholder="Enter your Name" required>
+          <button type="submit">Register</button>
+        </form>
+        <p id="registrationMessage" class="message"></p>
+      </div>
+
+      <div id="counterAppSection" style="display: none;">
+        <p>Welcome, <strong id="loggedInUserName"></strong>!</p>
+        <div id="counterDisplay">0</div>
+        <button id="incrementButton">Add Count</button>
+        <p id="counterMessage" class="message"></p>
+      </div>
+    </div>
+
+    <div class="leaderboards-section-wrapper">
+      <h3>Leaderboards</h3>
+      <div class="leaderboard-columns-container">
+        <div class="leaderboard-column">
+          <h4>Weekly Leaderboard</h4>
+          <ul id="weeklyLeaderboardList" class="leaderboard-list">
+            <li>Loading...</li>
+          </ul>
+        </div>
+
+        <div class="leaderboard-column">
+          <h4>Current Monthly Leaderboard</h4>
+          <ul id="currentMonthlyLeaderboardList" class="leaderboard-list">
+            <li>Loading...</li>
+          </ul>
+        </div>
+
+        <div class="leaderboard-column">
+          <h4>Past Monthly Leaderboard</h4>
+          <ul id="pastMonthlyLeaderboardList" class="leaderboard-list">
+            <li>Loading...</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="throne-section">
+      <h3>The Throne</h3>
+      <ul id="lifetimeLeaderboardList" class="throne-list">
+        <li>Loading Lifetime Leaderboard...</li>
+      </ul>
+    </div>
+    </div>
+
+  <script>
+
+    function showMessage(elementId, msg, isError = false) {
+      const element = document.getElementById(elementId);
+      element.textContent = msg;
+      if (msg) {
+        element.style.display = 'block';
+
+        element.classList.remove('message--success', 'message--error'); 
+        element.classList.add(isError ? 'message--error' : 'message--success');
+      } else {
+        element.style.display = 'none';
+      }
+    }
+
+    function loadCounterApp() {
+      google.script.run
+        .withSuccessHandler(function(response) {
+          if (response.registered) {
+            document.getElementById('registrationSection').style.display = 'none';
+            document.getElementById('counterAppSection').style.display = 'block';
+            document.getElementById('loggedInUserName').innerText = response.name;
+
+            google.script.run
+              .withSuccessHandler(function(counterData) {
+                document.getElementById('counterDisplay').innerText = counterData.currentCount;
+                loadLeaderboards(); 
+              })
+              .withFailureHandler(function(error) {
+                showMessage('counterMessage', 'Error loading counter: ' + error.message, true);
+                console.error('Error getting counter value:', error);
+              })
+              .getCounterValue();
+          } else {
+            document.getElementById('registrationSection').style.display = 'block';
+            document.getElementById('counterAppSection').style.display = 'none';
+          }
+        })
+        .withFailureHandler(function(error) {
+          showMessage('registrationMessage', 'Error checking registration: ' + error.message, true);
+          console.error('Error checking user registration:', error);
+        })
+        .isUserRegistered();
+    }
+
+    function loadLeaderboards() {
+        google.script.run
+            .withSuccessHandler(function(leaderboardData) {
+                populateLeaderboard('weeklyLeaderboardList', leaderboardData.dailyLeaderboard);
+                populateLeaderboard('currentMonthlyLeaderboardList', leaderboardData.monthlyLeaderboard);
+                populateLeaderboard('pastMonthlyLeaderboardList', leaderboardData.pastMonthLeaderboard);
+                populateLeaderboard('lifetimeLeaderboardList', leaderboardData.lifetimeLeaderboard, true); 
+            })
+            .withFailureHandler(function(error) {
+                document.getElementById('weeklyLeaderboardList').innerHTML = '<li>Error loading.</li>';
+                document.getElementById('currentMonthlyLeaderboardList').innerHTML = '<li>Error loading.</li>';
+                document.getElementById('pastMonthlyLeaderboardList').innerHTML = '<li>Error loading.</li>';
+                document.getElementById('lifetimeLeaderboardList').innerHTML = '<li>Error loading.</li>'; 
+                console.error('Error loading leaderboards:', error);
+            })
+            .getLeaderboardData();
+    }
+
+    function populateLeaderboard(listId, data, isThrone = false) { 
+        const listElement = document.getElementById(listId);
+        listElement.innerHTML = ''; 
+
+        if (!data || data.length === 0) {
+            listElement.innerHTML = '<li>No entries yet.</li>';
+            return;
+        }
+
+        data.forEach(item => {
+            const li = document.createElement('li');
+            li.innerHTML = `<span class="name">${item.name}</span> <span class="count">${item.count}</span>`;
+            listElement.appendChild(li);
+        });
+    }
+
+    document.getElementById('registrationForm').addEventListener('submit', function(e) {
+      e.preventDefault(); 
+      const userName = document.getElementById('userNameInput').value.trim();
+
+      if (!userName) {
+        showMessage('registrationMessage', 'Please enter your name.', true);
+        return;
+      }
+
+      showMessage('registrationMessage', 'Registering...', false);
+
+      google.script.run
+        .withSuccessHandler(function() {
+          showMessage('registrationMessage', 'Registration successful!', false);
+          loadCounterApp(); 
+        })
+        .withFailureHandler(function(error) {
+          showMessage('registrationMessage', 'Registration failed: ' + error.message, true);
+          console.error('Registration error:', error);
+        })
+        .registerUser(userName);
+    });
+
+    document.getElementById('incrementButton').addEventListener('click', function() {
+      showMessage('counterMessage', 'Adding count...', false);
+      google.script.run
+        .withSuccessHandler(function(newCount) {
+          document.getElementById('counterDisplay').innerText = newCount;
+          showMessage('counterMessage', 'Count updated!', false);
+
+          loadLeaderboards();
+        })
+        .withFailureHandler(function(error) {
+          showMessage('counterMessage', 'Error incrementing counter: ' + error.message, true);
+          console.error('Increment counter error:', error);
+        })
+        .incrementCounter();
+    });
+
+    document.addEventListener('DOMContentLoaded', loadCounterApp);
+  </script>
+
+</body>
+</html>
